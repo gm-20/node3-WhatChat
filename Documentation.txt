@@ -1,0 +1,83 @@
+
+Here we are making a Chat app using Socket.io
+
+Web Sockets
+-->Allow full duplex communication
+-->Seperate protocol from HTTP
+-->Continous connection between Client and Server
+
+To set-up Web Sockets for our project:
+
+In backend:
+-->Make a http call to create Server amd pass app created from express.
+    const server = http.createServer(app)
+
+--> Load Socket.io amd pass the server created in above step
+    const io = socketio(server)
+
+-->server.listen(port,()=>{
+    console.log('Hello From Server')
+})
+
+io.on('connection',(socket)=>{
+    console.log('New Web Socket')
+
+    //Emmiting data from server to client
+    socket.emit('countUpdated',count)
+
+    socket.on('increment',()=>{
+        count++;
+        socket.emit('countUpdated',count)
+    })
+})
+
+
+
+In Frontend:
+
+Load these scripts:
+--> <script src="/socket.io/socket.io.js"></script>
+--> <script src="/js/chat.js"></script>
+
+
+Socket.io
+Its all about sending and receiving events between server and Client. 
+
+
+Sending event:
+
+
+:Sending to one connection
+socket.emit('event_name',()=>{
+
+})
+
+:Sending to all connection
+io.emit('event_name',()=>{
+
+})
+
+
+Receiving event:
+
+socket.on('event_name',()=>{
+
+})
+
+
+Event Acknowledgment:
+
+
+socket.on() --------> reciever call callback
+
+socket.emit()/io.emit() ------------>emitter receives callback_data
+
+
+
+Frontend libraries
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script> --> Used for templating
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script> -->Manipulate date and times
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script> ----> Used to pass query string
