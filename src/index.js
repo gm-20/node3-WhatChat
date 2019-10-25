@@ -66,6 +66,9 @@ io.on('connection',(socket)=>{
 
         const user = getUser(socket.id)
 
+        if(!user){
+            return callback('User error')
+        }
 
 
         io.to(user.room).emit('message',generateMessage(data,user.username))
